@@ -50,12 +50,6 @@ public:
     virtual status_t dumpState(int fd, const Vector<String16>& args);
 
 protected:
-    /** returns true if the given mode maps to a telephony or VoIP call is in progress */
-    virtual bool     isModeInCall(int mode)
-                        { return ((mode == AudioSystem::MODE_IN_CALL)
-                                || (mode == AudioSystem::MODE_IN_COMMUNICATION)); };
-    /** returns true if a telephony or VoIP call is in progress */
-    virtual bool     isInCall() { return isModeInCall(mMode); };
     int              mMode;
 };
 

@@ -10,6 +10,8 @@ LOCAL_SHARED_LIBRARIES := libutils libbinder libcutils libwpa_client
 
 LOCAL_INCLUDES += $(LOCAL_PATH)
 
+LOCAL_CFLAGS += -O3 -march=armv6zk -mcpu=arm1176jzf-s -mfpu=vfp -mfloat-abi=softfp
+
 ifneq ($(TARGET_SIMULATOR),true)
   LOCAL_CFLAGS  += -DQEMU_HARDWARE
   QEMU_HARDWARE := true
