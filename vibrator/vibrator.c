@@ -22,10 +22,8 @@
 #include <errno.h>
 
 #define THE_DEVICE "/sys/class/timed_output/vibrator/enable"
-#define THE_L_DEVICE "/sys/class/timed_output/lvibrator/enable"
-#define MAX_L_DEVICE 150
 
-static int sendit(char *dev, int timeout_ms)
+static int sendit(int timeout_ms)
 {
     int nwr, ret, fd;
     char value[20];
@@ -36,7 +34,7 @@ static int sendit(char *dev, int timeout_ms)
     }
 #endif
 
-    fd = open(dev, O_RDWR);
+    fd = open(THE_DEVICE, O_RDWR);
     if(fd < 0)
         return errno;
 
@@ -50,19 +48,11 @@ static int sendit(char *dev, int timeout_ms)
 
 int vibrator_on(int timeout_ms)
 {
-    int ret;
-    if (timeout_ms <= 0)
-        ret = (sendit(THE_DEVICE, 0) | sendit(THE_L_DEVICE, 0));
-    else if (timeout_ms > MAX_L_DEVICE)
-        ret = sendit(THE_DEVICE, timeout_ms);
-    else
-        ret = sendit(THE_L_DEVICE, timeout_ms);
-    return ret;
+    /* constant on, up to maximum allowed time */
+    return sendit(timeout_ms);
 }
 
 int vibrator_off()
 {
-  int ret;
-  ret = (sendit(THE_DEVICE, 0) | sendit(THE_L_DEVICE, 0));
-  return ret;
+    return sendit(0);
 }
